@@ -16,6 +16,14 @@ public class Constructor {
         random.rno=12;
 
         System.out.println(random.marks);
+
+        //Calling to same refernce
+        Student one=new Student();
+        Student two=one;
+
+        one.name="Hello";
+
+        System.out.println(two.name);
         
     }
 }
@@ -40,18 +48,23 @@ class Student{
         this.marks=marks;
     }
 
-    //When I run the student with no parametrs this will run.-->Calles consturctor overloading
+    //When I run the student with no parametrs this will run.-->Called consturctor overloading
     //Correct way is this
-    Student(){
-        this.rno=13;
-        this.name="Anmol";
-        this.marks=23.0f;
-    }
+    // Student(){
+    //     this.rno=13;
+    //     this.name="Anmol";
+    //     this.marks=23.0f;
+    // }
 
     //caloing parametes of other stundent
     Student(Student other){
         this.name=other.name;
         this.rno=other.rno;
         this.marks=other.marks;
+    }
+    //BY this way you can call one costructor from another Constructor
+    Student(){
+        //Internally it is like new Student(paramets);
+        this(13, "Anmol", 23.0f);
     }
 }

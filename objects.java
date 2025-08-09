@@ -6,7 +6,7 @@
 public class objects {
     public static void main(String[] args){
 
-        Student[] students=new Student[5];
+       // Student[] students=new Student[5];
 
         // Student kunal;
         // kunal=new Student();
