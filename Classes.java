@@ -1,9 +1,4 @@
-package code_files;
-//When we have to commbine different parameters into single enetity then we can do it with the classes
-//If have to create oure own data type we can do it using classes
-//class-->a name group of properties and functions
-//class--> means a template basically ,from which differnet things are formed for example:
-//          class is-->engine,price,seats for a car now from this basic template we can form differnet cars like audi,bmw etc
+
 
 //hence class is template of object and object is instance of class
 

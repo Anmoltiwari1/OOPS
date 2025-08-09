@@ -1,4 +1,4 @@
-package code_files;
+
 //new operator-->Student student1;(declare)
 //            -->dynimacally aloocates memory and returs refrence to it
 //              student1=new Student();
