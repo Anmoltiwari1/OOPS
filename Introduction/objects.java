@@ -1,8 +1,12 @@
+package Introduction;
 
 //new operator-->Student student1;(declare)
 //            -->dynimacally aloocates memory and returs refrence to it
 //              student1=new Student();
 //            -->what dies new does-->dynamic memory alocation
+
+import Student;
+
 public class objects {
     public static void main(String[] args){
 
