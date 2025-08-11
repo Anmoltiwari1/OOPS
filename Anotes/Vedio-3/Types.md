@@ -1,3 +1,11 @@
+# 📦 Java Inheritance Examples – Box Classes
+
+This project demonstrates **different types of inheritance** in Java with clear examples and constructor chaining.
+
+---
+
+## 📜 Main.java
+```java
 package Inheritance.Inheritance_Types;
 
 public class Main {
@@ -69,3 +77,83 @@ public class Main {
         // --------------------------------------------
     }
 }
+package Inheritance.Inheritance_Types;
+
+public class Box {
+    double l; // length
+    double h; // height
+    double w; // width
+
+    // Default constructor: Initializes dimensions to -1 (uninitialized state)
+    Box() {
+        super(); // Calls Object class constructor (implicit in Java)
+        this.l = -1;
+        this.h = -1;
+        this.w = -1;
+    }
+
+    // Constructor for cube (all sides equal)
+    Box(double side) {
+        this.l = side;
+        this.h = side;
+        this.w = side;
+    }
+
+    // Constructor for a rectangular box
+    Box(double l, double h, double w) {
+        this.l = l;
+        this.h = h;
+        this.w = w;
+    }
+}
+package Inheritance.Inheritance_Types;
+
+// 🔹 Single Level Inheritance (BoxWeight → Box)
+public class BoxWeight extends Box {
+    double weight; // Additional property
+
+    // Default constructor
+    public BoxWeight() {
+        super(); // Initializes dimensions to -1
+        this.weight = -1;
+    }
+
+    // Parameterized constructor:
+    // Uses super() to initialize dimensions from Box
+    public BoxWeight(double l, double h, double w, double weight) {
+        super(l, h, w); // Initialize parent class fields
+        this.weight = weight;
+    }
+}
+package Inheritance.Inheritance_Types;
+
+// 🔹 Multilevel Inheritance (BoxPrice → BoxWeight → Box)
+public class BoxPrice extends BoxWeight {
+    double cost;
+
+    // Default constructor: calls parent (BoxWeight) constructor
+    BoxPrice() {
+        super(); // Calls BoxWeight() → Box()
+        this.cost = -1;
+    }
+
+    // Parameterized constructor:
+    // Passes l, h, w, weight to BoxWeight
+    public BoxPrice(double l, double h, double w, double weight, double cost) {
+        super(l, h, w, weight);
+        this.cost = cost;
+    }
+}
+package Inheritance.Inheritance_Types;
+
+// 🔹 Hierarchical Inheritance (BoxColor → BoxWeight → Box)
+public class BoxColor extends BoxWeight {
+    // Can add color-related fields and methods here
+}
+        Box
+         ↑
+    ┌────┴────┐
+    │         │
+BoxWeight   BoxColor  ← Hierarchical
+    ↑
+ BoxPrice   ← Multilevel

@@ -1,11 +1,11 @@
 package Inheritance.Inheritance_Types;
 
 public class Box {
-        double l; // length
+    double l; // length
     double h; // height
     double w; // width
 
-    // Default constructor: initializes dimensions to -1 (uninitialized state)
+    // Default constructor: Initializes dimensions to -1 (uninitialized state)
     Box() {
         super(); // Calls Object class constructor (implicit in Java)
         this.l = -1;
@@ -13,7 +13,7 @@ public class Box {
         this.w = -1;
     }
 
-    // Constructor for a cube (all sides equal)
+    // Constructor for cube (all sides equal)
     Box(double side) {
         this.l = side;
         this.h = side;

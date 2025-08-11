@@ -1,17 +1,19 @@
 package Inheritance.Inheritance_Types;
 
-public class BoxPrice extends BoxWeight{
-    
+// 🔹 Multilevel Inheritance (BoxPrice → BoxWeight → Box)
+public class BoxPrice extends BoxWeight {
     double cost;
 
-    BoxPrice(){
-        super();
-        this.cost=-1;
+    // Default constructor: calls parent (BoxWeight) constructor
+    BoxPrice() {
+        super(); // Calls BoxWeight() → Box()
+        this.cost = -1;
     }
 
-    public BoxPrice(double l,double h,double w,double weight,double cost){
+    // Parameterized constructor:
+    // Passes l, h, w, weight to BoxWeight
+    public BoxPrice(double l, double h, double w, double weight, double cost) {
         super(l, h, w, weight);
-        this.cost=cost;
+        this.cost = cost;
     }
 }
-
