@@ -9,11 +9,12 @@
 6. [Static Inner Classes](#static-inner-classes)
 7. [Packages](#packages)
 8. [Singleton Pattern](#singleton-pattern)
-9. [Inheritance Introduction](#inheritance-introduction)
-10. [Types of Inheritance](#types-of-inheritance)
-11. [Polymorphism Introduction](#polymorphism-introduction)
-12. [Types of Polymorphism](#types-of-polymorphism)
-13. [Encapsulation and Abstraction](#encapsulation-and-abstraction)
+9. [Access Modifiers](#access-modifiers)
+10. [Inheritance Introduction](#inheritance-introduction)
+11. [Types of Inheritance](#types-of-inheritance)
+12. [Polymorphism Introduction](#polymorphism-introduction)
+13. [Types of Polymorphism](#types-of-polymorphism)
+14. [Encapsulation and Abstraction](#encapsulation-and-abstraction)
 
 ---
 
@@ -599,6 +600,174 @@ public class Main {
 
 ---
 
+## Access Modifiers
+
+### 📌 **Access Modifiers Overview**
+
+Access modifiers in Java control the visibility and accessibility of classes, methods, and variables. Understanding them is crucial for proper encapsulation and security in your applications.
+
+### **Access Modifiers Table**
+
+| Modifier       | Same Class | Same Package | Subclass (Different Package) | Other Packages |
+|----------------|------------|--------------|------------------------------|----------------|
+| **private**    | ✅ Yes      | ❌ No         | ❌ No                         | ❌ No           |
+| **default**    | ✅ Yes      | ✅ Yes        | ❌ No                         | ❌ No           |
+| **protected**  | ✅ Yes      | ✅ Yes        | ✅ Yes                        | ❌ No           |
+| **public**     | ✅ Yes      | ✅ Yes        | ✅ Yes                        | ✅ Yes          |
+
+---
+
+### **Detailed Explanation**
+
+#### 1. **private** 
+- **Most restrictive** access level
+- Accessible **only within the same class**
+- Commonly used for sensitive data that requires controlled access
+- Requires getter/setter methods for external access
+
+#### 2. **default** (Package-Private)
+- **No explicit keyword** needed
+- Accessible within the **same package only**
+- Cannot be accessed from different packages
+- Good for internal package implementation
+
+#### 3. **protected**
+- Accessible within the **same package** 
+- Accessible in **subclasses** even if they are in different packages
+- Provides controlled inheritance access
+- Commonly used for methods intended to be overridden
+
+#### 4. **public**
+- **Least restrictive** access level
+- Accessible **from anywhere** in the application
+- Used for APIs and methods that need global access
+
+---
+
+### **Complete Code Example**
+
+#### **A.java**
+```java
+// Class demonstrating different Access Modifiers in Java
+public class A {
+
+    // PRIVATE: Accessible only within this class.
+    // Often used for sensitive data, requires getter/setter for access.
+    private int num;
+
+    // PUBLIC: Accessible from anywhere in the project.
+    public String name;
+
+    // DEFAULT (Package-Private): Accessible only within the same package.
+    // Not accessible from outside the package.
+    int[] arr;
+
+    // PROTECTED: Accessible within the same package and in subclasses (even in different packages).
+    protected int n;
+
+    // Getter for private variable 'num'
+    public int getNum() {
+        return num;
+    }
+
+    // Setter for private variable 'num'
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    // Constructor to initialize all members
+    public A(int num, String name, int n) {
+        this.num = num;               // private variable
+        this.name = name;             // public variable
+        this.arr = new int[num];      // default variable
+        this.n = n;                   // protected variable
+    }
+
+    // Method to display object details
+    public void displayDetails() {
+        System.out.println("Name: " + name);
+        System.out.println("Private num (via getter): " + getNum());
+        System.out.println("Protected n: " + n);
+        System.out.print("Default array length: " + arr.length);
+        System.out.println("\n-----------------------------------");
+    }
+}
+```
+
+#### **Subclass.java**
+```java
+// Subclass inheriting from A
+public class Subclass extends A {
+
+    // Constructor calling parent constructor
+    public Subclass(int num, String name, int n) {
+        super(num, name, n);
+    }
+
+    // Method to demonstrate protected access
+    public void accessProtected() {
+        // 'n' is protected, so it is accessible in subclass
+        System.out.println("Accessing protected member n in subclass: " + n);
+
+        // Cannot access private variable 'num' directly:
+        // System.out.println(num); ❌
+        // Must use getter:
+        System.out.println("Accessing private num via getter in subclass: " + getNum());
+    }
+}
+```
+
+#### **Main.java**
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Creating object of class A
+        A objA = new A(10, "Kunal", 5);
+        objA.displayDetails();
+
+        // Accessing public member directly
+        System.out.println("Public name: " + objA.name);
+
+        // Accessing private member using getter
+        System.out.println("Private num via getter: " + objA.getNum());
+
+        // Setting a new value to private member via setter
+        objA.setNum(50);
+        System.out.println("Updated private num: " + objA.getNum());
+        System.out.println("-----------------------------------");
+
+        // Creating object of Subclass
+        Subclass objSub = new Subclass(34, "Anmol", 99);
+        objSub.displayDetails();
+        objSub.accessProtected();
+
+        // Accessing public member from subclass object
+        System.out.println("Public name in subclass: " + objSub.name);
+
+        // Accessing protected member from subclass object in main (same package)
+        System.out.println("Protected n from subclass in main: " + objSub.n);
+    }
+}
+```
+
+### **Key Points to Remember**
+
+1. **private** members are the foundation of **encapsulation**
+2. **default** access is useful for package-internal implementation details
+3. **protected** enables controlled inheritance across packages  
+4. **public** should be used judiciously for true public APIs
+5. **Hashcode** → Takes an object, performs internal operations, and converts it into a random unique number
+
+### **Best Practices**
+
+- Start with the **most restrictive** access level (private) and only increase visibility when necessary
+- Use **private** for internal data with **public getters/setters** for controlled access
+- Use **protected** for methods intended to be overridden by subclasses
+- Use **default** for package-internal utilities and helper classes
+- Use **public** only for APIs that truly need global access
+
+---
+
 ## Inheritance Introduction
 
 ### Box.java
@@ -861,335 +1030,4 @@ public class BoxColor extends BoxWeight {
     │         │
 BoxWeight   BoxColor  ← Hierarchical
     ↑
- BoxPrice   ← Multilevel
-```
-
----
-
-## Polymorphism Introduction
-
-### Shapes.java
-```java
-package Polymorphism.Intro;
-
-/*
-    Base class for polymorphism example.
-    - Contains a general area() method.
-    - Child classes will override this method.
-*/
-public class Shapes {
-    void area() {
-        System.out.println("I am in shapes");
-    }
-}
-```
-
-### Circle.java
-```java
-package Polymorphism.Intro;
-
-/*
-    Circle class extends Shapes.
-    Demonstrates METHOD OVERRIDING (Runtime Polymorphism).
-*/
-public class Circle extends Shapes {
-    @Override
-    void area() {
-        System.out.println("I am in Circle");
-    }
-}
-```
-
-### Square.java
-```java
-package Polymorphism.Intro;
-
-/*
-    Square class extends Shapes.
-    Overrides the area() method to provide its own behavior.
-*/
-public class Square extends Shapes {
-    @Override
-    void area() {
-        System.out.println("I am in squares");
-    }
-}
-```
-
-### Triangle.java
-```java
-package Polymorphism.Intro;
-
-/*
-    Triangle class extends Shapes.
-    Overrides the area() method for triangle-specific output.
-*/
-public class Triangle extends Shapes {
-    @Override
-    void area() {
-        System.out.println("I am in Triangles");
-    }
-}
-```
-
-### Main.java
-```java
-package Polymorphism.Intro;
-
-public class Main {
-    public static void main(String[] args) {
-        
-        // Parent reference & Parent object
-        Shapes shape = new Shapes();
-        
-        // Child reference & Child object
-        Circle circle = new Circle();
-        
-        // Another child class (Square) — not used in method call here
-        Square square = new Square();
-
-        // Calls Shapes' version
-        shape.area();
-        
-        // Calls Circle's overridden version
-        circle.area();
-    }
-}
-```
-
----
-
-## Types of Polymorphism
-
-### Intro.java
-```java
-package Polymorphism.Types_of_poly;
-
-/*
-========================================
-📌 POLYMORPHISM IN JAVA
-========================================
-
-Polymorphism = "One name, many forms"
-
-TYPES:
-----------------------------------------
-1️⃣ Compile-Time (Static) Polymorphism
-   - Achieved by METHOD OVERLOADING.
-   - Same method name, but parameter list differs 
-     (number, type, or order of parameters).
-   - Decided by the compiler at compile time.
-   - Example: Multiple constructors.
-
-2️⃣ Run-Time (Dynamic) Polymorphism
-   - Achieved by METHOD OVERRIDING.
-   - Child class has a method with the SAME signature as the parent,
-     but different implementation.
-   - Which method runs is decided at runtime based on OBJECT TYPE.
-   - Rules:
-       🔹 Final methods cannot be overridden.
-       🔹 Static methods cannot be overridden (only hidden).
-       🔹 Access level in child must not be more restrictive.
-
-----------------------------------------
-⚙ IMPORTANT:
-- Reference Type (left side of =) → Decides which members can be accessed.
-- Object Type (right side of =)   → Decides which overridden method runs.
-
-Example:
-Shapes s = new Circle();
-s.area(); // Runs Circle's area() because object is Circle.
-
-*/
-public class Intro {
-    
-}
-```
-
-### Circle.java
-```java
-package Polymorphism.Types_of_poly;
-
-/*
-    Circle class is a CHILD of Shapes (Inheritance).
-    This class demonstrates METHOD OVERRIDING (Run-time Polymorphism).
-*/
-public class Circle extends Shapes {
-    
-    /*
-        Overriding the area() method from Shapes.
-        This version will be executed when the object type is Circle,
-        even if the reference type is Shapes.
-        
-        @Override annotation:
-        - Ensures method is truly overriding a parent method.
-        - Compiler gives an error if method signature doesn't match.
-    */
-    @Override
-    void area() {
-        System.out.println("I am in Circle");
-    }
-}
-```
-
-### Main.java
-```java
-package Polymorphism.Types_of_poly;
-
-public class Main {
-    public static void main(String[] args) {
-        
-        // Parent reference & Parent object → Runs parent method
-        Shapes shape = new Shapes();    
-        
-        // Child reference & Child object → Runs child method
-        Circle circle = new Circle();   
-        
-        // Parent reference but Child object → Runtime Polymorphism
-        Shapes c = new Circle();
-
-        // Calls Shapes' version (parent method)
-        shape.area();   
-
-        // Calls Circle's overridden version
-        circle.area();  
-
-        /*
-           Runtime Polymorphism:
-           - Reference type: Shapes → Can access only members of Shapes.
-           - Object type: Circle → Overridden method from Circle runs.
-        */
-        c.area();
-    }
-}
-```
-
-### Number.java
-```java
-package Polymorphism.Types_of_poly;
-
-/*
-    Example of Compile-Time (Static) Polymorphism:
-    - Achieved via METHOD OVERLOADING.
-    - Which method to call is decided at compile time
-      based on method signature.
-*/
-public class Number {
-    
-    // sum() with 2 parameters
-    int sum(int a, int b) {
-        return a + b;
-    }
-
-    // sum() with 3 parameters
-    int sum(int a, int b, int c) {
-        return a + b + c;
-    }
-
-    public static void main(String[] args) {
-        Number obj = new Number();
-        
-        // Calls 2-parameter sum() → Decided at compile time
-        System.out.println(obj.sum(2, 3));
-
-        // Calls 3-parameter sum() → Decided at compile time
-        System.out.println(obj.sum(2, 3, 7));
-    }
-}
-```
-
-### Shapes.java
-```java
-package Polymorphism.Types_of_poly;
-
-/*
-    Parent (Base) class for polymorphism examples.
-    - area() method is designed to be overridden by child classes.
-*/
-public class Shapes {
-    
-    // Default implementation of area()
-    void area() {
-        System.out.println("I am in shapes");
-    }
-}
-```
-
----
-
-## Encapsulation and Abstraction
-
-### 📌 Encapsulation vs Abstraction (Quick Revision Notes)
-
-**Encapsulation:**
-- Wrapping data (fields) and methods into a single unit (class).
-- Achieved using access modifiers (private, public, protected).
-- Controls HOW data is accessed/modified (via getters/setters).
-- Implementation-level concept (code organization & data protection).
-- Example: Private variables + public getters/setters.
-
-**Abstraction:**
-- Hiding implementation details, showing only essential features.
-- Achieved using abstract classes & interfaces.
-- Focuses on WHAT operations an object can perform, not HOW.
-- Design-level concept (focus on interaction, not internals).
-- Example: Using ArrayList methods without knowing internal code.
-
-### 🆚 Quick Comparison Table:
-| Feature           | Encapsulation               | Abstraction                 |
-|-------------------|-----------------------------|-----------------------------|
-| Purpose           | Hide the data               | Hide the process            |
-| Level             | Implementation-level        | Design-level                |
-| Achieved by       | Access modifiers, classes   | Abstract classes, interfaces|
-| Focus             | Data hiding                 | Hiding complexity           |
-| Example           | Getters/Setters             | ArrayList usage             |
-
-### Encapsulation Example
-```java
-class Student {
-    private String name;
-
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-}
-```
-
-### Abstraction Example
-```java
-abstract class Shape {
-    abstract void draw();
-}
-
-class Circle extends Shape {
-    @Override
-    void draw() {
-        System.out.println("Drawing Circle");
-    }
-}
-```
-
----
-
-## Summary
-
-This comprehensive guide covers all the fundamental concepts of Object-Oriented Programming in Java:
-
-1. **Classes and Objects**: The foundation of OOP - blueprints and instances
-2. **Object Creation**: Understanding memory allocation and the `new` operator
-3. **Constructors**: Different types including default, parameterized, and copy constructors
-4. **Wrapper Classes**: Understanding primitive vs non-primitive types and the `final` keyword
-5. **Static Keyword**: Class-level members, methods, and initialization blocks
-6. **Static Inner Classes**: Nested classes and their relationship with outer classes
-7. **Packages**: Code organization and namespace management
-8. **Singleton Pattern**: Ensuring single instance creation and global access
-9. **Inheritance**: Code reusability through parent-child relationships
-10. **Types of Inheritance**: Single, multilevel, hierarchical, and their implementations
-11. **Polymorphism**: Runtime and compile-time polymorphism with method overriding and overloading
-12. **Encapsulation and Abstraction**: Data hiding and complexity management
-
-Each section includes practical code examples, detailed explanations, and best practices to help you master Java OOP concepts. The examples progress from basic to advanced topics, building upon previously learned concepts to create a solid foundation in object-oriented programming.
+ BoxPrice   ← Multil
